@@ -41,10 +41,8 @@ float fl_read_blocking(flist_t * fl)
 //Flush flueue
 void fl_flush(flist_t * fl)
 {
-    hw_DisableInterrupts();
     //Must set these three variables to zero before continuing...
     fl->in = fl->out = fl->len = 0;
-    hw_EnableInterrupts();
 }
 
 //Add data to queue
@@ -52,7 +50,6 @@ bool fl_pushback(flist_t * fl, float data)
 {
     bool ret_val = false;
 
-    hw_DisableInterrupts();
 
     if (fl->len < fl->max_len) {
         fl->buffer[fl->in++] = data;
@@ -62,7 +59,6 @@ bool fl_pushback(flist_t * fl, float data)
         fl->len = fl->len <= fl->max_len? fl->len+1 : fl->max_len;
         ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -71,7 +67,6 @@ bool fl_pushback(flist_t * fl, float data)
 bool fl_pushfront(flist_t * fl, float data)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
     if(fl->len != fl->max_len) {
         if(fl->out == 0) {
             fl->out = fl->max_len;
@@ -81,7 +76,6 @@ bool fl_pushfront(flist_t * fl, float data)
         fl->len++;
         ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -104,7 +98,6 @@ float fl_popfront(flist_t * fl)
 {
     float data = 0;
 
-    hw_DisableInterrupts();
     if (fl->len) {
         fl->len--;
 
@@ -116,7 +109,6 @@ float fl_popfront(flist_t * fl)
 //        if(fl.len == fl->max_len)
 //        	fl.len = fl->max_len+1;
     }
-    hw_EnableInterrupts();
     return data;
 }
 

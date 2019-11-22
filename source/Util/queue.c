@@ -59,7 +59,6 @@ bool q_pushback(queue_t * q, uint8_t data)
 bool q_pushfront(queue_t * q, uint8_t data)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
     if(q->len != Q_MAX_LENGTH) {
     	if(q->out == 0) {
     		q->out = Q_MAX_LENGTH;
@@ -69,7 +68,6 @@ bool q_pushfront(queue_t * q, uint8_t data)
         q->len++;
         ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 

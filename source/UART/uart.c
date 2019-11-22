@@ -15,7 +15,6 @@
 #include "MK64F12_features.h"
 #include "hardware.h"
 #include "gpio.h"
-
 #include "util/queue.h"
 
 
@@ -61,6 +60,7 @@ uart_tx_irq_t tx_handler;
 
 void uart_irq_handler(uint8_t id); // all interrupts call this handler to avoid copy-pasting code
 
+//TODO: esta de mas??
 void uart_periodic(void);	// called by systick, received and transmits
 
 

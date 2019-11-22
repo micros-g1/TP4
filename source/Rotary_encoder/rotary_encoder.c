@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include "board.h"
 
-//TODO: Replace Systick with PIT. Determine PIT time.
+//TODO: Check ISR freq
 //This driver has an ISR called by PIT
 //ISR Call Frequency
 #define RE_ISR_FREQUENCY	1000UL
