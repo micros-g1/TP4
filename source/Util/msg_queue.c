@@ -29,17 +29,14 @@ void mq_read_blocking(msg_queue_t * q, uint8_t * data)
 //Flush queue
 void mq_flush(msg_queue_t * q)
 {
-    hw_DisableInterrupts();
     //Must set these three variables to zero before continuing...
     mq_init(q);
-    hw_EnableInterrupts();
 }
 
 //Add data to queue
 bool mq_pushback(msg_queue_t * q, uint8_t * data)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
 
     if (q->len < Q_MAX_LENGTH) {
     	data[Q_MSG_LEN]=0; // assure there is a terminator
@@ -50,7 +47,6 @@ bool mq_pushback(msg_queue_t * q, uint8_t * data)
     	q->len = q->len <= Q_MAX_LENGTH ? q->len+1 : Q_MAX_LENGTH;
     	ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -59,7 +55,6 @@ bool mq_pushback(msg_queue_t * q, uint8_t * data)
 bool mq_pushfront(msg_queue_t * q, uint8_t * data)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
 
     if (q->len < Q_MAX_LENGTH) {
     	if(q->out == 0) {
@@ -71,7 +66,6 @@ bool mq_pushfront(msg_queue_t * q, uint8_t * data)
     	q->len++;
     	ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -92,7 +86,6 @@ bool mq_isfull(msg_queue_t * q)
 
 void mq_popfront(msg_queue_t * q, uint8_t * data)
 {
-    hw_DisableInterrupts();
     if (q->len) {
         q->len--;
 
@@ -104,5 +97,4 @@ void mq_popfront(msg_queue_t * q, uint8_t * data)
     else {
     	data[0] = 0;
     }
-    hw_EnableInterrupts();
 }

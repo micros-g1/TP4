@@ -11,7 +11,6 @@
 #include "Display/display_interface.h"
 #include "Rotary_encoder/rotary_encoder.h"
 #include "Database/database.h"
-#include "Timer/timers.h"
 #include "Magnetic_stripe/magnetic_stripe.h"
 #include "fsm.h"
 #include "events.h"
@@ -56,10 +55,11 @@ void App_Init (void){
 	init_event_queue();
 	state = fsm_get_init_state();
 
-	timers_set_timer_mode(0, TIMER_REPEAT);
-	timers_set_timer_period(0, 10*1000);
-	timers_set_timer_callback(0, timeout_callback);
-	timers_set_timer_enabled(0, true);
+	//TODO: remplazar por timer de OS
+//	timers_set_timer_mode(0, TIMER_REPEAT);
+//	timers_set_timer_period(0, 10*1000);
+//	timers_set_timer_callback(0, timeout_callback);
+//	timers_set_timer_enabled(0, true);
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
