@@ -8,7 +8,6 @@
 #ifndef DISPLAY_LEDS_C_
 #define DISPLAY_LEDS_C_
 #include <gpio.h>
-#include <Interrupts/SysTick.h>
 #include "leds.h"
 #include "MK64F12.h"
 #include "board.h"
@@ -72,8 +71,9 @@ void led_dr_init(){
 	gpioMode(PIN_DIODE_1, OUTPUT);
 	led_dr_reset();
 
-	systick_init();
-	systick_add_callback(led_draw_callback, COUNTER_FREQ, PERIODIC);
+	//TODO: replace systick
+//	systick_init();
+//	systick_add_callback(led_draw_callback, COUNTER_FREQ, PERIODIC);
 
 	initialized = true;
 }

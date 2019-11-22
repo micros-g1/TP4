@@ -7,7 +7,6 @@
 
 #include <gpio.h>
 #include <PIT/pit.h>
-#include <Interrupts/SysTick.h>
 #include <Rotary_encoder/rotary_encoder.h>
 #include <stdlib.h>
 #include <stdbool.h>

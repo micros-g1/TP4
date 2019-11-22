@@ -8,7 +8,6 @@
 
 #include <Display/display_driver.h>
 #include <Display/display_interface.h>
-#include <Interrupts/SysTick.h>
 #include "leds.h"
 #include "freedom_leds.h"
 #include "stdlib.h"
@@ -59,9 +58,11 @@ void display_init_interface(display_marquee_event_callback_t callback){
 
 	clear_marquee_buffer();
 	set_inform_event_callback(callback);
-	systick_init();
-	systick_add_callback(marquee_callback, SYSTICK_ISR_FREQUENCY_HZ/2, PERIODIC);
-	systick_disable_callback(marquee_callback);
+
+	//TODO: replace systick
+//	systick_init();
+//	systick_add_callback(marquee_callback, SYSTICK_ISR_FREQUENCY_HZ/2, PERIODIC);
+//	systick_disable_callback(marquee_callback);
 	initialized = true;
 }
 
@@ -69,11 +70,13 @@ void display_marquee(char* sentence, display_direction_t dir){
 	clear_marquee_buffer();
 	marquee_curr_dir = (direction_display_t) dir;
 	set_marquee_buffer(sentence);
-	systick_enable_callback(marquee_callback);
+	//TODO: replace systick
+	//systick_enable_callback(marquee_callback);
 }
 void display_stop_marquee(){
 	clear_marquee_buffer();
-	systick_disable_callback(marquee_callback);
+	//TODO: replace systick
+	//systick_disable_callback(marquee_callback);
 	marquee_reset = true;
 }
 

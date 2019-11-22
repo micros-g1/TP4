@@ -10,7 +10,6 @@
 #include <Magnetic_stripe/magtek_driver_fsm.h>
 #include <stdlib.h>
 #include "board.h"
-#include <Interrupts/SysTick.h>
 
 #define MT_SYSTICK 0
 
@@ -55,7 +54,8 @@ void mt_init(mt_callback_t callback)
     gpioMode(IT_DEDICATED_2_PIN, OUTPUT);
     gpioWrite(IT_DEDICATED_2_PIN, false);
     cb = callback;
-    systick_add_callback(mt_periodic, 100, PERIODIC);
+    //TODO: replace systick
+    //systick_add_callback(mt_periodic, 100, PERIODIC);
     event_queue_flush();
     card_buffer[0] = 0;
 }

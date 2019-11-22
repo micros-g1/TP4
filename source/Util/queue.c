@@ -3,7 +3,7 @@
 //
 
 #include "queue.h"
-#include "hardware.h"
+#include <SDK/startup/hardware.h>
 
 
 
@@ -33,10 +33,8 @@ uint8_t q_read_blocking(queue_t * q)
 //Flush queue
 void q_flush(queue_t * q)
 {
-    hw_DisableInterrupts();
     //Must set these three variables to zero before continuing...
     q_init(q);
-    hw_EnableInterrupts();
 }
 
 //Add data to queue
@@ -44,7 +42,6 @@ bool q_pushback(queue_t * q, uint8_t data)
 {
     bool ret_val = false;
 
-    hw_DisableInterrupts();
 
     if (q->len < Q_MAX_LENGTH) {
     	q->buffer[q->in++] = data;
@@ -54,7 +51,6 @@ bool q_pushback(queue_t * q, uint8_t data)
     	q->len = q->len <= Q_MAX_LENGTH? q->len+1 : Q_MAX_LENGTH;
     	ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -96,7 +92,6 @@ uint8_t q_popfront(queue_t * q)
 {
 	uint8_t data = 0;
 
-    hw_DisableInterrupts();
     if (q->len) {
         q->len--;
 
@@ -108,6 +103,5 @@ uint8_t q_popfront(queue_t * q)
 //        if(q.len == Q_MAX_LENGTH)
 //        	q.len = Q_MAX_LENGTH+1;
     }
-    hw_EnableInterrupts();
     return data;
 }

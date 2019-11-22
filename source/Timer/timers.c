@@ -1,6 +1,5 @@
 #include "timers.h"
 #include <stdlib.h>
-#include <Interrupts/SysTick.h>
 
 #define SYSTICKS_PER_MILLISECOND 6
 
@@ -30,8 +29,9 @@ void timers_init()
 	//Initialize all timers
 	for(int i = 1 ; i < TIMER_TOTAL_TIMERS ; i++)
 		timers_array[i] = timer;
+	//TODO: replace systick
 	//Set ISR
-	systick_add_callback(timers_ISR, SYSTICKS_PER_MILLISECOND, PERIODIC);
+	//systick_add_callback(timers_ISR, SYSTICKS_PER_MILLISECOND, PERIODIC);
 }
 
 //Set timer Period

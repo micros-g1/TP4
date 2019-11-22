@@ -305,27 +305,27 @@ void uart_irq_handler(uint8_t id)
  * OVERRIDE OF INTERRUPT VECTORS
  ******************************************************************************/
 
-__ISR__ UART0_RX_TX_IRQHandler (void)
+void UART0_RX_TX_IRQHandler (void)
 {
 	uart_irq_handler(0);
 }
 
-__ISR__ UART1_RX_TX_IRQHandler (void)
+void UART1_RX_TX_IRQHandler (void)
 {
 	uart_irq_handler(1);
 }
 
-__ISR__ UART2_RX_TX_IRQHandler (void)
+void UART2_RX_TX_IRQHandler (void)
 {
 	uart_irq_handler(2);
 }
 
-__ISR__ UART3_RX_TX_IRQHandler (void)
+void UART3_RX_TX_IRQHandler (void)
 {
 	uart_irq_handler(3);
 }
 
-__ISR__ UART4_RX_TX_IRQHandler (void)
+void UART4_RX_TX_IRQHandler (void)
 {
 	uart_irq_handler(4);
 }
