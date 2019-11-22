@@ -6,13 +6,15 @@
  */
 
 #include <gpio.h>
+#include <PIT/pit.h>
 #include <Interrupts/SysTick.h>
 #include <Rotary_encoder/rotary_encoder.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "board.h"
 
-//This driver has an ISR called by an SysTick Callback
+//TODO: Replace Systick with PIT. Determine PIT time.
+//This driver has an ISR called by PIT
 //Number of SysTicks per ISR CALL
 #define RE_ISR_PERIOD_TICKS 8
 //Callback
