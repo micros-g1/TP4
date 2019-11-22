@@ -8,6 +8,7 @@
 #include <Magnetic_stripe/magnetic_stripe.h>
 #include <Magnetic_stripe/magtek_driver.h>
 #include <Magnetic_stripe/magtek_driver_fsm.h>
+#include <PIT/pit.h>
 #include <stdlib.h>
 #include "board.h"
 
@@ -32,7 +33,6 @@ static mt_state_t const state_table[MT_N_STATES][MT_N_EVS] = {
 /* READING LRC  */  {MT_READING_LRC,    MT_IDLE,    MT_IDLE,            MT_IDLE,        MT_READING_LRC,		MT_IDLE}
 };
 
-
 void mt_init(mt_callback_t callback)
 {
     static bool is_init =  false;
@@ -40,7 +40,7 @@ void mt_init(mt_callback_t callback)
         return;
     is_init = true;
     interrupts_init();
-    systick_init();
+    pit_init();
     // configure data, enable and clock as input
     gpioMode(MT_ENABLEPIN, INPUT_PULLUP);
     gpioMode(MT_CLOCKPIN, INPUT_PULLUP);

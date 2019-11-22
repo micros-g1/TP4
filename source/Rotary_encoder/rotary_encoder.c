@@ -113,9 +113,9 @@ void rotary_encoder_init()
 	if(!rotary_encoder_initialized)
 	{
 		//Initialize GPIO
-		gpioMode (RE_PIN_BUTTON_SIGNAL, INPUT_PULLUP);
-		gpioMode (RE_PIN_SIGNAL_A, INPUT_PULLUP);
-		gpioMode (RE_PIN_SIGNAL_B, INPUT_PULLUP);
+		gpioMode(RE_PIN_BUTTON_SIGNAL, INPUT_PULLUP);
+		gpioMode(RE_PIN_SIGNAL_A, INPUT_PULLUP);
+		gpioMode(RE_PIN_SIGNAL_B, INPUT_PULLUP);
 		//Variable Initialization
 		rotary_encoder_callback = NULL;
 		previous_button_signal = true;	//Assume button is not pressed
