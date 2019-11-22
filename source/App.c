@@ -33,7 +33,7 @@ fsm_state_t * state;
 fsm_event_t event;
 
 OS_TMR * fsm_timer;
-OS_CHAR fsm_timer_name[] = "fsm_timer";
+char fsm_timer_name[] = "fsm_timer";
 OS_ERR * fsm_timer_err;
 OS_TICK fsm_timer_tick_period;
 
@@ -53,7 +53,6 @@ void TP1_task (void){
 
 	display_init_interface(m_finished);
 	u_init();
-	timers_init();
 	ms_init(ms_callback);
 
 	display_write_to_led(1, true);

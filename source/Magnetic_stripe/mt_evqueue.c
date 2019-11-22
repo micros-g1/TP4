@@ -26,17 +26,14 @@ void event_queue_wait_for_event(mt_ev_t* ev)
 //Flush event queue
 void event_queue_flush()
 {
-    hw_DisableInterrupts();
     //Must set these three variables to zero before continuing...
     queue_length = in_offset = out_offset = 0;
-    hw_EnableInterrupts();
 }
 
 //Add event to event queue
 bool event_queue_add_event(mt_ev_t ev)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
     //Only one event source can add an event to the queue at a given time
     if(queue_length != EV_QUEUE_MAX_LENGTH)
     {
@@ -46,7 +43,6 @@ bool event_queue_add_event(mt_ev_t ev)
         queue_length++;
         ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
@@ -55,7 +51,6 @@ bool event_queue_add_event(mt_ev_t ev)
 bool event_queue_add_event_front(mt_ev_t ev)
 {
     bool ret_val = false;
-    hw_DisableInterrupts();
     //Only one event source can add an event to the queue at a given time
     if(queue_length != EV_QUEUE_MAX_LENGTH)
     {
@@ -66,7 +61,6 @@ bool event_queue_add_event_front(mt_ev_t ev)
         queue_length++;
         ret_val = true;
     }
-    hw_EnableInterrupts();
     return ret_val;
 }
 
