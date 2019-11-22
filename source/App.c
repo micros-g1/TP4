@@ -28,7 +28,7 @@ void m_finished(void);
 void rotary_encoder_callback(re_event_t ev);
 void timeout_callback(unsigned int id);
 extern void ms_callback(ms_ev_t ev);
-
+void App_Init (void);
 
 fsm_state_t * state;
 fsm_event_t event;
@@ -64,11 +64,17 @@ void App_Init (void){
 
 /* Función que se llama constantemente en un ciclo infinito */
 void App_Run (void){
-	if(is_there_event()){
-		timers_reset_timer(0);
-		pop_event(&event);
-		state = fsm_run(state, event);
+	App_Init ();
+	while(1){
+		//directiva de sistema operativo.
+		if(is_there_event()){
+			timers_reset_timer(0);
+			pop_event(&event);
+			state = fsm_run(state, event);
+		}
+
 	}
+
 }
 
 

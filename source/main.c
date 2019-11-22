@@ -1,5 +1,6 @@
 #include "hardware.h"
 #include  <os.h>
+#include "App.h"
 
 /* LEDs */
 #define LED_R_PORT            PORTB
