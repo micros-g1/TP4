@@ -12,6 +12,7 @@
 #include "Rotary_encoder/rotary_encoder.h"
 #include "Database/database.h"
 #include "Magnetic_stripe/magnetic_stripe.h"
+#include <rtos/uCOSIII/src/uCOS-III/Source/os.h>
 #include "fsm.h"
 #include "events.h"
 
@@ -25,12 +26,16 @@
  ******************************************************************************/
 void m_finished(void);
 void rotary_encoder_callback(re_event_t ev);
-void timeout_callback(unsigned int id);
+void timeout_callback();
 extern void ms_callback(ms_ev_t ev);
-void App_Init (void);
 
 fsm_state_t * state;
 fsm_event_t event;
+
+OS_TMR * fsm_timer;
+OS_CHAR fsm_timer_name[] = "fsm_timer";
+OS_ERR * fsm_timer_err;
+OS_TICK fsm_timer_tick_period;
 
 /*******************************************************************************
  *******************************************************************************
@@ -38,8 +43,11 @@ fsm_event_t event;
  *******************************************************************************
  ******************************************************************************/
 
-/* Función que se llama 1 vez, al comienzo del programa */
-void App_Init (void){
+
+/* Task TP1 */
+void TP1_task (void){
+
+
 	rotary_encoder_init();
 	rotary_encoder_set_callback(rotary_encoder_callback);
 
@@ -55,20 +63,15 @@ void App_Init (void){
 	init_event_queue();
 	state = fsm_get_init_state();
 
-	//TODO: remplazar por timer de OS
-//	timers_set_timer_mode(0, TIMER_REPEAT);
-//	timers_set_timer_period(0, 10*1000);
-//	timers_set_timer_callback(0, timeout_callback);
-//	timers_set_timer_enabled(0, true);
-}
+	uint32_t delay_in_seconds = 10;
 
-/* Función que se llama constantemente en un ciclo infinito */
-void App_Run (void){
-	App_Init ();
+	fsm_timer_tick_period = delay_in_seconds * OSCfg_TickRate_Hz;
+	OSTmrCreate(fsm_timer, fsm_timer_name, 0, fsm_timer_tick_period, OS_OPT_TMR_PERIODIC, timeout_callback, NULL, fsm_timer_err);
+
 	while(1){
 		//directiva de sistema operativo.
 		if(is_there_event()){
-			timers_reset_timer(0);
+			OSTmrStart(fsm_timer, fsm_timer_err);
 			pop_event(&event);
 			state = fsm_run(state, event);
 		}
@@ -133,7 +136,7 @@ void m_finished(){
 	push_event(ev);
 }
 
-void timeout_callback(unsigned int id){
+void timeout_callback(){
 	fsm_event_t ev;
 	ev.code = TIMEOUT_EV;
 	push_event(ev);
