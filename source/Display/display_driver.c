@@ -22,7 +22,7 @@
 /*-------------------------------------------
  ----------GLOBAL_VARIABLES------------------
  -------------------------------------------*/
-
+static pit_conf_t pit_conf;
 static bool blinking[AMOUNT_MAX_DISPLAY_POS];				//blinking (true) or not (false)
 static bool blink_cleared[AMOUNT_MAX_DISPLAY_POS];		//status of the blinking (showing:true, not showing: false)
 static int brightness[AMOUNT_MAX_DISPLAY_POS];			//brightness level, from MIN_BRIGHT to MAX_BRIGHT
@@ -207,7 +207,12 @@ void display_dr_init(void){
 	display_dr_reset();
 
 	pit_init();
-	pit_conf_t pit_conf = {.callback=display_dr_draw_callback, .chain_mode=false, .channel=PIT_DISPLAY_CH, .timer_enable=true, .timer_interrupt_enable=true, .timer_count=PIT_CLOCK_FREQUENCY/CALL_FREQ_HZ-1};
+	pit_conf.callback=display_dr_draw_callback;
+	pit_conf.channel=PIT_DISPLAY_CH;
+	pit_conf.chain_mode=false;
+	pit_conf.timer_enable=true;
+	pit_conf.timer_interrupt_enable=true;
+	pit_conf.timer_count=PIT_CLOCK_FREQUENCY/CALL_FREQ_HZ-1;
 	pit_set_channel_conf(pit_conf);
 
 	initialized = true;
@@ -302,10 +307,8 @@ static void swap_chars(unsigned char * sw1, char *sw2){
 }
 
 void display_dr_on_off(bool on_off){
-	if(!on_off)
-		systick_disable_callback(display_dr_draw_callback);
-	else
-		systick_enable_callback(display_dr_draw_callback);
+	pit_conf.timer_interrupt_enable=on_off;
+	pit_set_channel_conf(pit_conf);
 }
 
 static bool handle_brightness(int pos){

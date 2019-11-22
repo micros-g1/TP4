@@ -144,7 +144,7 @@ int main(void) {
 
 	OSTaskCreate(&TP1_TASK_TCB,
 				 "TP1 Task",
-				 Tp1_Task,
+				 TP1_task,
 				  0u,
 				  TP1_TASK_PRIO,
 				 &Tp1_TaskStk[0u],

@@ -12,8 +12,8 @@
 #define TP1_TASK_STK_SIZE 		512u
 #define TP1_TASK_PRIO 			2u
 static OS_TCB TP1_TASK_TCB;
-static CPU_STK Tp1_TaskStk[TASKSTART_STK_SIZE];
+static CPU_STK Tp1_TaskStk[TP1_TASK_STK_SIZE];
 
-void Tp1_Task (void);
+void TP1_task (void);
 
 #endif /* APP_H_ */
