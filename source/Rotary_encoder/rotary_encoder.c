@@ -127,7 +127,7 @@ void rotary_encoder_init()
 		pit_conf_t pit_conf = {
 				.callback=rotary_encoder_ISR,
 				.chain_mode=false,
-				.channel=,
+				.channel=PIT_ROTARY_CH,
 				.timer_count=RE_ISR_PERIOD_TICKS,
 				.timer_enable=true,
 				.timer_interrupt_enable=true
