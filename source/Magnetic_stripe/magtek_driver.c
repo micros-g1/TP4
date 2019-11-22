@@ -8,7 +8,6 @@
 #include <Magnetic_stripe/magnetic_stripe.h>
 #include <Magnetic_stripe/magtek_driver.h>
 #include <Magnetic_stripe/magtek_driver_fsm.h>
-#include <PIT/pit.h>
 #include <stdlib.h>
 #include "board.h"
 
@@ -40,7 +39,6 @@ void mt_init(mt_callback_t callback)
         return;
     is_init = true;
     interrupts_init();
-    pit_init();
     // configure data, enable and clock as input
     gpioMode(MT_ENABLEPIN, INPUT_PULLUP);
     gpioMode(MT_CLOCKPIN, INPUT_PULLUP);
