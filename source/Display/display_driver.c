@@ -4,10 +4,9 @@
  *  Created on: 30 ago. 2019
  *      Author: Tomas
  */
-
+#include <PIT/pit.h>
 #include <Display/display_driver.h>
 #include <gpio.h>
-#include <Interrupts/SysTick.h>
 #include "MK64F12.h"
 #include "board.h"
 
@@ -15,12 +14,7 @@
  ----------------DEFINES---------------------
  -------------------------------------------*/
 //CALL_FREQ_HZ lower than 80U flickers! (with SYSTICK_ISR_FREQUENCY_HZ 1000U)
-#define CALL_FREQ_HZ 4000U
-#define COUNTER_FREQ 	SYSTICK_ISR_FREQUENCY_HZ/CALL_FREQ_HZ-1
-#if SYSTICK_ISR_FREQUENCY_HZ % CALL_FREQ_HZ != 0
-#warning BLINK cannot implement this exact frequency. Using floor(SYSTICK_ISR_FREQUENCY_HZ/CALL_FREQ_HZ) instead.
-#endif
-
+#define CALL_FREQ_HZ 5000U
 #define NULL_TERMINATOR 0 //for strings
 #define AMOUNT_SEGS	7
 #define AMOUNT_POSSIBLE_CHAR	128
@@ -212,8 +206,9 @@ void display_dr_init(void){
 	gpioMode(PIN_DIODE_1, OUTPUT);
 	display_dr_reset();
 
-	systick_init();
-	systick_add_callback(display_dr_draw_callback, COUNTER_FREQ, PERIODIC);
+	pit_init();
+	pit_conf_t pit_conf = {.callback=display_dr_draw_callback, .chain_mode=false, .channel=PIT_DISPLAY_CH, .timer_enable=true, .timer_interrupt_enable=true, .timer_count=PIT_CLOCK_FREQUENCY/CALL_FREQ_HZ-1};
+	pit_set_channel_conf(pit_conf);
 
 	initialized = true;
 }

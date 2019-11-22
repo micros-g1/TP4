@@ -14,7 +14,9 @@
 #define PIT_CLOCK_FREQUENCY 50000000UL
 
 typedef void(*pit_callback)(void);
+
 typedef enum {PIT_CH0, PIT_CH1, PIT_CH2, PIT_CH3, AMOUNT_PIT_CH} pit_channels_t;
+
 typedef struct{
 	bool chain_mode;
 	pit_channels_t channel;
