@@ -40,8 +40,7 @@ fsm_event_t event;
  ******************************************************************************/
 
 /* Función que se llama 1 vez, al comienzo del programa */
-void App_Init (void)
-{
+void App_Init (void){
 	rotary_encoder_init();
 	rotary_encoder_set_callback(rotary_encoder_callback);
 
@@ -64,8 +63,7 @@ void App_Init (void)
 }
 
 /* Función que se llama constantemente en un ciclo infinito */
-void App_Run (void)
-{
+void App_Run (void){
 	if(is_there_event()){
 		timers_reset_timer(0);
 		pop_event(&event);
@@ -79,8 +77,7 @@ void App_Run (void)
                         LOCAL FUNCTION DEFINITIONS
  *******************************************************************************
  ******************************************************************************/
-void rotary_encoder_callback(re_event_t ev)
-{
+void rotary_encoder_callback(re_event_t ev){
 	fsm_event_t new_event;
 	bool ev_flag = false;
 	switch(ev)
@@ -124,15 +121,13 @@ void rotary_encoder_callback(re_event_t ev)
 		push_event(new_event);
 }
 
-void m_finished()
-{
+void m_finished(){
 	fsm_event_t ev;
 	ev.code = MARQUEE_END_EV;
 	push_event(ev);
 }
 
-void timeout_callback(unsigned int id)
-{
+void timeout_callback(unsigned int id){
 	fsm_event_t ev;
 	ev.code = TIMEOUT_EV;
 	push_event(ev);
