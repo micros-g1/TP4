@@ -15,8 +15,10 @@
 
 //TODO: Replace Systick with PIT. Determine PIT time.
 //This driver has an ISR called by PIT
-//Number of SysTicks per ISR CALL
-#define RE_ISR_PERIOD_TICKS 8
+//ISR Call Frequency
+#define RE_ISR_FREQUENCY	1000UL
+//Number of PIT clock ticks per ISR CALL
+#define RE_ISR_PERIOD_TICKS PIT_CLOCK_FREQUENCY/RE_ISR_FREQUENCY - 1
 //Callback
 static void rotary_encoder_ISR();
 
@@ -120,9 +122,17 @@ void rotary_encoder_init()
 		previous_button_signal = true;	//Assume button is not pressed
 		re_state = RE_IDLE_S;		//Assume rotary encoder rotation is IDLE
 		previous_rotation_idle = true;
-		//Initialize SysTick
-		systick_init();
-		systick_add_callback(rotary_encoder_ISR,RE_ISR_PERIOD_TICKS,PERIODIC);
+		//Initialize PIT
+		pit_init();
+		pit_conf_t pit_conf = {
+				.callback=rotary_encoder_ISR,
+				.chain_mode=false,
+				.channel=,
+				.timer_count=RE_ISR_PERIOD_TICKS,
+				.timer_enable=true,
+				.timer_interrupt_enable=true
+		};
+		pit_set_channel_conf(pit_conf);
 		//Done.
 		rotary_encoder_initialized = true;
 	}
