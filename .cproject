@@ -235,7 +235,6 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.crt.advproject.tool.debug.debug.1678236944" name="MCU Debugger"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
@@ -473,7 +472,6 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-							<tool id="com.crt.advproject.tool.debug.release.413383153" name="MCU Debugger"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
