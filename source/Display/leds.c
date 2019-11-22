@@ -11,14 +11,11 @@
 #include "leds.h"
 #include "MK64F12.h"
 #include "board.h"
+#include "PIT/pit.h"
 /*-------------------------------------------
  ----------------DEFINES---------------------
  -------------------------------------------*/
 #define CALL_FREQ_HZ 2000U
-#define COUNTER_FREQ 	SYSTICK_ISR_FREQUENCY_HZ/CALL_FREQ_HZ-1
-#if SYSTICK_ISR_FREQUENCY_HZ % CALL_FREQ_HZ != 0
-#warning BLINK cannot implement this exact frequency. Using floor(SYSTICK_ISR_FREQUENCY_HZ/CALL_FREQ_HZ) instead.
-#endif
 #define DISPLAY_MAX_BRIGHT	5
 #define DISPLAY_MIN_BRIGHT	0
 /*-------------------------------------------
@@ -30,6 +27,7 @@ static int brightness[AMOUNT_MAX_DIODES_POS];			//brightness level, from MIN_BRI
 static int blink_counter_vel = CALL_FREQ_HZ/AMOUNT_MAX_DIODES_POS/2;	//half a second.
 static bool curr_displaying[AMOUNT_MAX_DIODES_POS];			//leds buffer. Initialized at leds_init()
 static int bright_counter[AMOUNT_MAX_DIODES_POS];
+static pit_conf_t pit_conf;
 /*-------------------------------------------
  ----------STATIC_FUNCTION_DECLARATION-------
  -------------------------------------------*/
@@ -71,10 +69,16 @@ void led_dr_init(){
 	gpioMode(PIN_DIODE_1, OUTPUT);
 	led_dr_reset();
 
-	//TODO: replace systick
-//	systick_init();
-//	systick_add_callback(led_draw_callback, COUNTER_FREQ, PERIODIC);
 
+
+	pit_init();
+	pit_conf.callback = led_draw_callback;
+	pit_conf.chain_mode = false;
+	pit_conf.channel = PIT_LED_CH;
+	pit_conf.timer_enable = true;
+	pit_conf.timer_interrupt_enable = true;
+	pit_conf.timer_count= CALL_FREQ_HZ/PIT_CLOCK_FREQUENCY-1;
+	pit_set_channel_conf(pit_conf);
 	initialized = true;
 }
 
@@ -139,10 +143,8 @@ static void swap_bools(bool * sw1, bool *sw2){
 	*sw2 = aux;
 }
 void led_dr_on_off(bool on_off){
-	if(!on_off)
-		systick_disable_callback(led_draw_callback);
-	else
-		systick_enable_callback(led_draw_callback);
+	pit_conf.timer_interrupt_enable = on_off;
+	pit_set_channel_conf(pit_conf);
 }
 static bool handle_brightness(int pos){
 
