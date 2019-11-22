@@ -134,42 +134,27 @@ int main(void) {
 #endif
 
     hw_Init();
-
-    /* RGB LED */
-    SIM->SCGC5 |= (SIM_SCGC5_PORTB_MASK | SIM_SCGC5_PORTE_MASK);
-    LED_B_PORT->PCR[LED_B_PIN] = PORT_PCR_MUX(1);
-    LED_G_PORT->PCR[LED_G_PIN] = PORT_PCR_MUX(1);
-    LED_R_PORT->PCR[LED_R_PIN] = PORT_PCR_MUX(1);
-    LED_B_GPIO->PDDR |= (1 << LED_B_PIN);
-    LED_G_GPIO->PDDR |= (1 << LED_G_PIN);
-    LED_R_GPIO->PDDR |= (1 << LED_R_PIN);
-    LED_B_GPIO->PSOR |= (1 << LED_B_PIN);
-    LED_G_GPIO->PSOR |= (1 << LED_G_PIN);
-    LED_R_GPIO->PSOR |= (1 << LED_R_PIN);
-
-    (LED_G_GPIO->PTOR |= (1 << LED_G_PIN));
-    (LED_G_GPIO->PTOR |= (1 << LED_G_PIN));
-
     OSInit(&err);
+
  #if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
 	 /* Enable task round robin. */
 	 OSSchedRoundRobinCfg((CPU_BOOLEAN)1, 0, &err);
  #endif
     OS_CPU_SysTickInit(SystemCoreClock / (uint32_t)OSCfg_TickRate_Hz);
 
-    OSTaskCreate(&TaskStartTCB,
-                 "App Task Start",
-                  TaskStart,
-                  0u,
-                  TASKSTART_PRIO,
-                 &TaskStartStk[0u],
-                 (TASKSTART_STK_SIZE / 10u),
-                  TASKSTART_STK_SIZE,
-                  0u,
-                  0u,
-                  0u,
-                 (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR | OS_OPT_TASK_SAVE_FP),
-                 &err);
+	OSTaskCreate(&TP1_TASK_TCB,
+				 "TP1 Task",
+				 Tp1_Task,
+				  0u,
+				  TP1_TASK_PRIO,
+				 &Tp1_TaskStk[0u],
+				 (TP1_TASK_STK_SIZE / 10u),
+				 TP1_TASK_STK_SIZE,
+				  0u,
+				  0u,
+				  0u,
+				 (OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR | OS_OPT_TASK_SAVE_FP),
+				 &err);
 
     OSStart(&err);
 
