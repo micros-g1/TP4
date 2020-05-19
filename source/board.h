@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include "gpio.h"
-#include "PIT/pit.h"
+//#include "PIT/pit.h"
 
 /*******************************************************************************
  * CONSTANT AND MACRO DEFINITIONS USING #DEFINE
@@ -67,9 +67,9 @@
 #define IT_DEDICATED_1_PIN	(PORTNUM2PIN(PB, 20u))
 #define IT_DEDICATED_2_PIN	(PORTNUM2PIN(PB, 23u))
 
-#define PIT_DISPLAY_CH		PIT_CH0
-#define PIT_ROTARY_CH		PIT_CH1
-#define PIT_LED_CH			PIT_CH2
+//#define PIT_DISPLAY_CH		PIT_CH0
+//#define PIT_ROTARY_CH			PIT_CH1
+//#define PIT_LED_CH			PIT_CH2
 /*******************************************************************************
  ******************************************************************************/
 

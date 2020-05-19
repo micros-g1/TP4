@@ -82,7 +82,7 @@ static  void  OS_TmrUnlock (void);
 *
 *              opt             Specifies either:
 *
-*                                  OS_OPT_TMR_ONE_SHOT       The timer counts down only once
+*                                          The timer counts down only once
 *                                  OS_OPT_TMR_PERIODIC       The timer counts down and then reloads itself
 *
 *              p_callback      Is a pointer to a callback function that will be called when the timer expires.  The
